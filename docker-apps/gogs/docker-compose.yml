@@ -1,0 +1,50 @@
+version: '3'
+
+networks:
+  backend:
+    driver: bridge
+  frontend:
+    external:
+      name: app_net
+
+volumes:
+  gogs_git_data:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /data/volumes/gogs/git
+  gogs_db_data:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /data/volumes/gogs/db
+
+services:
+  postgres:
+    image: postgres:9.5
+    restart: always
+    environment:
+     - "POSTGRES_USER=gogs"
+     - "POSTGRES_PASSWORD=gogs"
+     - "POSTGRES_DB=gogs"
+    volumes:
+     - "gogs_db_data:/var/lib/postgresql/data"
+    networks:
+     - backend
+  gogs:
+    image: gogs/gogs:latest
+    restart: always
+    ports:
+     - "2222:22"
+     - "3000:3000"
+    links:
+     - postgres
+    environment:
+     - "RUN_CROND=true"
+     - "VIRTUAL_HOST=gogs.imulab.io"
+     - "VIRTUAL_PORT=3000"
+    networks:
+     - backend
+     - frontend
+    volumes:
+     - "gogs_git_data:/data"
+    depends_on:
+     - postgres

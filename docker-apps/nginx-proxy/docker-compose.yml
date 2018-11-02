@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - /data/certs:/etc/nginx/certs
+      - /data/volumes/nginx-proxy/config/vhost:/etc/nginx/vhost.d:ro
+
+networks:
+  default:
+    external:
+      name: app_net

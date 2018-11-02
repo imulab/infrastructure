@@ -1,0 +1,31 @@
+version: '2'
+
+services:
+ minio:
+  image: minio/minio
+  volumes:
+   - minio_data:/data
+   - minio_config:/root/.minio
+  ports:
+   - 9090:9000
+  environment:
+   - MINIO_ACCESS_KEY=imulab
+   - MINIO_SECRET_KEY=imulab
+   - VIRTUAL_HOST=minio.imulab.io
+   - VIRTUAL_PORT=9090
+  command: server /data
+
+networks:
+  default:
+    external:
+      name: app_net
+
+volumes:
+  minio_data:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /data/volumes/minio/data
+  minio_config:
+    driver: local-persist
+    driver_opts:
+      mountpoint: /data/volumes/minio/config
