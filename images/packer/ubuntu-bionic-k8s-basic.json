@@ -1,0 +1,51 @@
+{
+	"variables": {
+		"hostname": "kubernetes",
+		"ssh_username": "ubuntu",
+		"ssh_password": "ubuntu",
+		"vm_name": "kubernetes-basic",
+		"disk_size": "4096"
+	},
+	"builders": [
+		{
+			"type": "qemu",
+			"iso_url": "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img",
+			"iso_checksum": "9a20068e0e36384b12a17839bb520932",
+			"iso_checksum_type": "md5",
+			"disk_image": "true",
+			"format": "qcow2",
+			"output_directory": "target",
+			"shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+			"disk_size": "{{user `disk_size`}}",
+			"headless": "true",
+			"accelerator": "none",
+			"use_default_display": "true",
+			"ssh_username": "{{user `ssh_username`}}",
+			"ssh_password": "{{user `ssh_password`}}",
+			"ssh_timeout": "30m",
+			"vm_name": "{{user `vm_name`}}.img",
+			"qemuargs": [
+				[ "-m", "1024M" ],
+				[ "-smp", "2" ],
+				[ "-fda", "bionic64-cloud-init-seed.img" ],
+				[ "-serial", "mon:stdio" ]
+			]
+		}
+	],
+	"provisioners": [
+		{
+			"type": "shell",
+			"inline": [
+				"sudo apt-get update",
+				"sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common",
+				"curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
+				"curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -",
+				"sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
+				"sudo add-apt-repository \"deb https://apt.kubernetes.io/ kubernetes-xenial main\"",
+				"sudo apt-get update",
+				"sudo apt-get install -y docker-ce kubelet kubeadm kubectl",
+				"sudo apt-mark hold kubelet kubeadm kubectl"
+			]
+		}
+	]
+}

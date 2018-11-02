@@ -1,0 +1,6 @@
+.vagrant/
+*.log
+packer/packer_cache
+packer/target
+packer/wget-log*
+.DS_Store
