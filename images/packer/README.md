@@ -28,8 +28,6 @@ cloud-localds /tmp/seed.img /tmp/cloud.cfg
 ### proxmox using qcow2
 
 ```
-apt-get install cloud-init
-
 # create template
 qm create 1000 --memory 512 --net0 virtio,bridge=vmbr0
 qm importdisk 1000 custom.img local-data
