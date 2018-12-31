@@ -2,6 +2,12 @@
 
 List of all custom built images.
 
+### ubuntu-bionic-docker.json
+
+A basic ubuntu bionic64 cloud image, custom provisioned to install `docker`.
+
+Output format is `qcow2`. To import on Proxmox, consult [Proxmox cloud init documentation](https://pve.proxmox.com/wiki/Cloud-Init_Support).
+
 ### ubuntu-bionic-k8s-basic
 
 A basic ubuntu bionic64 cloud image, custom provisioned to install `docker`, `kubeadm`, `kubelet` and `kubectl`. Designed to quickly bootstrap a non-HA kubernetes cluster without having to wait for software installation.
