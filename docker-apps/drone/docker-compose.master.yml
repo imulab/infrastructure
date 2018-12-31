@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  drone-master:
+    image: drone/drone:1.0.0-rc.3
+    environment:
+      - "DRONE_TLS_CERT=/etc/certs/drone.imulab.io.crt"
+      - "DRONE_TLS_KEY=/etc/certs/drone.imulab.io.key"
+      - "DRONE_GITHUB_SERVER=https://github.com"
+      - "DRONE_GITHUB_CLIENT_ID=<change_me>"
+      - "DRONE_GITHUB_CLIENT_SECRET=<change_me>"
+      - "DRONE_RPC_SECRET=<change_me>"
+      - "DRONE_SERVER_HOST=drone.imulab.io"
+      - "DRONE_SERVER_PROTO=https"
+      - "DRONE_TLS_AUTOCERT=false"
+      - "DRONE_USER_CREATE=username:imulab,admin:true"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "/var/lib/drone:/data"
+      - "/etc/certs/drone.imulab.io.crt:/etc/certs/drone.imulab.io.crt"
+      - "/etc/certs/drone.imulab.io.key:/etc/certs/drone.imulab.io.key"
+    ports:
+      - "80:80"
+      - "443:443"
+    restart: always
+  hook-agent:
+    image: davidiamyou/drone-webhook-proxy:LATEST
+    entrypoint: hook agent -p <hook_proxy_address/pop> -d https://drone.imulab.io/hook

@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+  drone-worker-$x:
+    image: drone/agent:1.0.0-rc.3
+    volumes:
+      - "/usr/local/share/ca-certificates/imulab.io.crt:/etc/ssl/certs/ca-certificates.crt"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    environment:
+      - "DRONE_RPC_SERVER=https://drone.imulab.io"
+      - "DRONE_RPC_SECRET=<change_me>"
+      - "DRONE_RUNNER_CAPACITY=4"
+      - "DRONE_RUNNER_NAME=drone-worker-$x"
+    restart: always
