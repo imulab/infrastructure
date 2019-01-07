@@ -2,6 +2,12 @@
 
 List of all custom built images.
 
+### ubuntu-bionic-gocd-master/agent.json
+
+A basic ubuntu bionic64 cloud image, installed with gocd master or agent package, following the installation instructions [here](https://docs.gocd.org/current/installation/).
+
+Output format is `qcow2`. To import on Proxmox, consult [Proxmox cloud init documentation](https://pve.proxmox.com/wiki/Cloud-Init_Support).
+
 ### ubuntu-bionic-docker.json
 
 A basic ubuntu bionic64 cloud image, custom provisioned to install `docker`.
