@@ -10,7 +10,7 @@
 		{
 			"type": "qemu",
 			"iso_url": "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img",
-			"iso_checksum": "9a20068e0e36384b12a17839bb520932",
+			"iso_checksum": "3ec30a8cc566d48a87c1297d8f1303b1",
 			"iso_checksum_type": "md5",
 			"disk_image": "true",
 			"format": "qcow2",
