@@ -10,7 +10,7 @@
 		{
 			"type": "qemu",
 			"iso_url": "https://cloud-images.ubuntu.com/bionic/current/bionic-server-cloudimg-amd64.img",
-			"iso_checksum": "3ec30a8cc566d48a87c1297d8f1303b1",
+			"iso_checksum": "86c3ca21b276e1b469cb497e2c50b475",
 			"iso_checksum_type": "md5",
 			"disk_image": "true",
 			"format": "qcow2",
@@ -18,7 +18,7 @@
 			"shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
 			"disk_size": "{{user `disk_size`}}",
 			"headless": "true",
-			"accelerator": "none",
+			"accelerator": "kvm",
 			"use_default_display": "true",
 			"ssh_username": "{{user `ssh_username`}}",
 			"ssh_password": "{{user `ssh_password`}}",
@@ -39,11 +39,13 @@
 				"sudo apt-get update",
 				"sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common",
 				"curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -",
-				"curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -",
 				"sudo add-apt-repository \"deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable\"",
-				"sudo add-apt-repository \"deb https://apt.kubernetes.io/ kubernetes-xenial main\"",
 				"sudo apt-get update",
-				"sudo apt-get install -y docker-ce kubelet kubeadm kubectl",
+				"sudo apt-get install -y docker-ce",
+				"curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -",
+				"sudo add-apt-repository \"deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main\"",
+				"sudo apt-get update",
+				"sudo apt-get install -y kubelet kubeadm kubectl",
 				"sudo apt-mark hold kubelet kubeadm kubectl"
 			]
 		}
